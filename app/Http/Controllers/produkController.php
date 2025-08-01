@@ -10,16 +10,15 @@ class produkController extends Controller
     public function edit($id)
     {
         // Ambil data Produk berdasarkan ID
-        $produks = Produk::find($id);
-        
-        if (!$produks) {
+        $produk = Produk::findOrFail($id);        
+        if (!$produk) {
             return redirect()->route('adminbeluk.inputproduk')->with('error', 'Data tidak ditemukan.');
         }
 
         $categories = Produk::distinct()->pluck('category', 'category');
 
         // Tampilkan halaman edit dengan data produk
-        return view('adminbeluk.edit', compact('produks', 'categories'));
+        return view('adminbeluk.inputproduk', compact('produk', 'categories'));
     }
 
     public function update(Request $request, $id)
