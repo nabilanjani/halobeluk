@@ -194,8 +194,9 @@ class adminController extends Controller
     {
         $shops = Shop::all();
         $produks = Produk::all();
+        $produk = Produk::first();
         $categories = Produk::distinct()->pluck('kategori', 'kategori');
-        return view('adminbeluk.inputproduk', compact('shops', 'produks', 'categories'));
+        return view('adminbeluk.inputproduk', compact('shops', 'produks', 'categories', 'produk'));
     }
     public function inputkwt()
     {
