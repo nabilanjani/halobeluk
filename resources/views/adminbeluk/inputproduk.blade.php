@@ -183,7 +183,9 @@
                             <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
                             <select id="kategori" name="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500">
                                 <option selected disabled>Pilih Kategori</option>
-                                <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                @foreach ($categories as $key => $kategori)
+                                    <option value="{{ $key }}">{{ $kategori }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
