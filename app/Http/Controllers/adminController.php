@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Shop;
 use App\Models\Artikel;
 use App\Models\Produk;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -33,8 +34,18 @@ class adminController extends Controller
         // Proses upload gambar jika ada
         $imagePath = null;
         if ($request->hasFile('image_path')) {
-            // Menyimpan gambar ke storage/public/images
+            // Simpan ke storage/app/public/images
             $imagePath = $request->file('image_path')->store('images', 'public');
+
+            // Copy manual ke public/storage/images
+            $from = storage_path('app/public/' . $imagePath);
+            $to = public_path('storage/' . $imagePath);
+
+            // Buat folder jika belum ada
+            File::ensureDirectoryExists(dirname($to));
+
+            // Copy file dari storage ke public
+            File::copy($from, $to);
         }
 
         // Menyimpan data toko
