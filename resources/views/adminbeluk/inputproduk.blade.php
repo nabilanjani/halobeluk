@@ -160,11 +160,11 @@
                     <div class="grid gap-4 mb-4 sm:grid-cols-3">
                         <div>
                             <label for="nama_produk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Produk</label>
-                            <input type="text" name="nama_produk" id="nama_produk" value="{{ $produk->nama_produk }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan nama kelompok" required="">
+                            <input type="text" name="nama_produk" id="nama_produk" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan nama kelompok" required="">
                         </div>
                         <div>
                             <label for="harga" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Produk</label>
-                            <input type="number" name="harga" id="harga" value="{{ $produk->harga }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan nama ketua" required="">
+                            <input type="number" name="harga" id="harga" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan nama ketua" required="">
                         </div>
                         <div>
                             <label for="foto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload Gambar</label>
@@ -175,9 +175,7 @@
                             <select id="shop_id" name="shop" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option selected disabled>Pilih Toko</option>
                                 @foreach ($shops as $shop)
-                                    <option value="{{ $shop->id }}" {{ $shop->id == $produk->shop_id ? 'selected' : '' }}>
-                                        {{ $shop->name }}
-                                    </option>
+                                    <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -185,9 +183,7 @@
                             <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
                             <select id="kategori" name="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500">
                                 <option selected disabled>Pilih Kategori</option>
-                                @foreach ($categories as $key => $kategori)
-                                    <option value="{{ $key }}" {{ $produk->kategori == $key ? 'selected' : '' }}>{{ $kategori }}</option>
-                                @endforeach
+                                <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                             </select>
                         </div>
                     </div>
