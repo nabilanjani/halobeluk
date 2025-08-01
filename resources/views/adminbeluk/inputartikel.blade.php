@@ -145,13 +145,13 @@
                 </div>
 
                 <!-- Modal body -->
-                <form action="{{ route('adminbeluk.inputartikel.update', $artikel->id) }}" method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="grid gap-4 mb-4 sm:grid-cols-3">
                         <div>
                             <label for="judul" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Artikel</label>
-                            <input type="text" name="judul" id="judul" value="{{ $artikel->judul }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan judul artikel" required="">
+                            <input type="text" name="judul" id="judul" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan judul artikel" required="">
                         </div>
                         <div>
                             <label for="diterbitkan_pada" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Terbit</label>
@@ -159,7 +159,7 @@
                                 type="date" 
                                 name="diterbitkan_pada" 
                                 id="diterbitkan_pada" 
-                                value="{{ $artikel->diterbitkan_pada }}"
+                                value=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" 
                                 required
                             >
@@ -172,15 +172,14 @@
                             <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
                             <select id="kategori" name="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" required>
                                 <option selected disabled>Pilih Kategori</option>
-                                <option value="umkm" {{ $artikel->kategori == 'umkm' ? 'selected' : '' }}>UMKM</option>
-                                <option value="limbah" {{ $artikel->kategori == 'limbah' ? 'selected' : '' }}>Limbah</option>
-                                <option value="maggot" {{ $artikel->kategori == 'maggot' ? 'selected' : '' }}>Maggot</option>
-                                <option value="pemasaran" {{ $artikel->kategori == 'pemasaran' ? 'selected' : '' }}>Pemasaran</option>
+                                @foreach ($categories as $key => $kategori)
+                                    <option value="{{ $key }}">{{ $kategori }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="sm:col-span-2">
                             <label for="konten" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konten Artikel</label>
-                            <textarea id="konten" name="konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan isi konten artikel.">{{ $artikel->konten }}</textarea>                    
+                            <textarea id="konten" name="konten" rows="4" value="" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Masukkan isi konten artikel."></textarea>                    
                         </div>
                     </div>
                     <button type="submit" class="text-white inline-flex items-center bg-green-700 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
