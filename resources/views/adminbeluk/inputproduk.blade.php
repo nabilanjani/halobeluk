@@ -154,7 +154,7 @@
                 </div>
 
                 <!-- Modal body -->
-                <form action="{{ route('adminbeluk.inputproduk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="grid gap-4 mb-4 sm:grid-cols-3">
