@@ -81,29 +81,30 @@
         </div>
 
         <!-- Shop List Section -->
-        <!-- Scrollable Container -->
-        <div class="overflow-x-auto">
-            <div class="flex space-x-6 pb-4">
+        <div class="relative mt-0 z-10 w-full px-6 py-16">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
                 @foreach ($shops as $shop)
-                    <div class="flex min-w-[340px] md:min-w-[600px] bg-gray-100 bg-opacity-50 p-6 rounded-lg shadow-md">
-                        <!-- Gambar Kiri -->
-                        <div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
-                            <img src="{{ asset('storage/' . $shop->image_path) }}" alt="Gambar Toko" class="object-cover w-full h-full rounded-full">
-                        </div>
+                    <div class="bg-gray-100 bg-opacity-50 p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0">
+                            <!-- Gambar -->
+                            <div class="flex-shrink-0 w-40 h-40">
+                                <img src="{{ asset('storage/' . $shop->image_path) }}" alt="Gambar Toko" class="object-cover w-full h-full rounded-full">
+                            </div>
 
-                        <!-- Teks Kanan -->
-                        <div class="pl-4 flex flex-col justify-center text-sm">
-                            <h3 class="text-xl font-semibold text-gray-800">{{ $shop->name }}</h3>
-                            <p class="text-gray-900 mt-2 leading-relaxed">
-                                {{ $shop->name }} adalah Kelompok Wanita Tani yang berlokasi di {{ $shop->address }}, dipimpin oleh Ibu {{ $shop->owner_name }}. Kelompok ini bergerak dalam pemberdayaan perempuan melalui kegiatan pertanian dan pengolahan hasil tani lokal.
-                                Untuk informasi lebih lanjut, hubungi di nomor {{ $shop->phone_number }}.
-                            </p>
+                            <!-- Deskripsi -->
+                            <div class="flex-grow text-center sm:text-left">
+                                <h3 class="text-xl font-semibold text-gray-800">{{ $shop->name }}</h3>
+                                <p class="text-gray-900 mt-4 text-sm">
+                                    {{ $shop->name }} adalah Kelompok Wanita Tani yang berlokasi di {{ $shop->address }}, dipimpin oleh Ibu {{ $shop->owner_name }}. Kelompok ini bergerak dalam pemberdayaan perempuan melalui kegiatan pertanian dan pengolahan hasil tani lokal.
+                                    Dengan semangat kebersamaan dan kepedulian terhadap potensi desa, {{ $shop->name }} terus berinovasi untuk menghadirkan berbagai karya yang bermanfaat bagi masyarakat.
+                                    Untuk informasi lebih lanjut atau jika ingin bekerja sama, hubungi di nomor {{ $shop->phone_number }}.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 @endforeach
             </div>
         </div>
-
     </section>
 
     <!-- Footer -->
