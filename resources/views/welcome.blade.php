@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,700" rel="stylesheet" />
 
+    <!-- Alpine.js untuk navbar responsive -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -16,10 +19,20 @@
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
     <!-- Header -->
-    <header class="bg-green-50/60 backdrop-blur-lg shadow-md sticky top-0 z-50">
+    <header class="bg-green-50/60 backdrop-blur-lg shadow-md sticky top-0 z-50" x-data="{ open: false }">
         <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-            <h1 class="text-1xl font-bold text-green-800">Halo Beluk!</h1>
+            <h1 class="text-lg font-bold text-green-800">Halo Beluk!</h1>
 
+            <!-- Tombol hamburger (mobile) -->
+            <button @click="open = !open" class="md:hidden text-green-800 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Navigasi desktop -->
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
                 <a href="{{ route('welcome') }}" class="hover:text-green-600 transition {{ request()->routeIs('welcome') ? 'text-green-700 font-semibold' : '' }}">Beranda</a>
                 <a href="{{ route('kwt') }}" class="hover:text-green-600 transition {{ request()->routeIs('kwt') ? 'text-green-700 font-semibold' : '' }}">KWT Beluk</a>
@@ -27,13 +40,27 @@
             </nav>
 
             @if (Route::has('login'))
-                <div class="text-sm">
+                <div class="hidden md:block text-sm">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-gray-800 hover:text-blue-600 font-semibold">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="text-gray-800 hover:text-green-600 font-semibold">Login</a>
                     @endauth
                 </div>
+            @endif
+        </div>
+
+        <!-- Dropdown Mobile Menu -->
+        <div class="md:hidden px-6 pb-4 pt-2 space-y-2 text-sm font-medium text-gray-700" x-show="open" x-transition>
+            <a href="{{ route('welcome') }}" class="block hover:text-green-600 {{ request()->routeIs('welcome') ? 'text-green-700 font-semibold' : '' }}">Beranda</a>
+            <a href="{{ route('kwt') }}" class="block hover:text-green-600 {{ request()->routeIs('kwt') ? 'text-green-700 font-semibold' : '' }}">KWT Beluk</a>
+            <a href="{{ route('maggot') }}" class="block hover:text-green-600 {{ request()->routeIs('maggot') ? 'text-green-700 font-semibold' : '' }}">Artikel</a>
+            @if (Route::has('login'))
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="block text-gray-800 hover:text-blue-600 font-semibold">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="block text-gray-800 hover:text-green-600 font-semibold">Login</a>
+                @endauth
             @endif
         </div>
     </header>
@@ -52,7 +79,6 @@
 
             <!-- Cards -->
             <div class="py-8 px-4 mt-2 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-                <!-- Grid untuk 6 Produk dalam Satu Baris -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6 lg:mb-16">
                     @foreach ($produks as $produk)
                         <div class="bg-gradient-to-b from-white/10 via-gray-900/30 to-gray-900/70 dark:from-gray-800 dark:to-gray-900 p-4 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-yellow-500 relative overflow-hidden group">
@@ -63,9 +89,6 @@
                                 Rp {{ number_format($produk->harga, 0, ',', '.') }}
                             </p>
                             <div class="mt-2">
-                                {{-- <a href="tel:{{ $produk->shop->link }}" class="inline-block text-sm text-green-600 bg-white py-2 px-4 rounded-full border border-green-600 hover:bg-green-600 hover:text-white transition duration-300">
-                                    Hubungi Toko
-                                </a> --}}
                                 <a href="{{ $produk->shop->link }}?text=Halo%2C%20saya%20tertarik%20dengan%20produkmu%21" class="inline-block text-sm text-green-600 bg-white py-2 px-4 rounded-full border border-green-600 hover:bg-green-600 hover:text-white transition duration-300">
                                     Hubungi Toko
                                 </a>
