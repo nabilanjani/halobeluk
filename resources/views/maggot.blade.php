@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,700" rel="stylesheet" />
 
+    <!-- Alpine.js untuk responsive navbar -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,30 +19,39 @@
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
     <!-- Header -->
-    <header class="bg-green-50/60 backdrop-blur-lg shadow-md sticky top-0 z-50">
+    <header class="bg-green-50/60 backdrop-blur-lg shadow-md sticky top-0 z-50" x-data="{ open: false }">
         <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-            <!-- Kiri: Logo / Judul -->
-            <h1 class="text-1xl font-bold text-green-800">Halo Beluk!</h1>
+            <!-- Logo / Judul -->
+            <h1 class="text-lg font-bold text-green-800">Halo Beluk!</h1>
 
-            <!-- Tengah: Navigasi Menu -->
+            <!-- Tombol Hamburger (Mobile) -->
+            <button @click="open = !open" class="md:hidden focus:outline-none text-green-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Navigasi Menu Desktop -->
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
                 <a href="{{ route('welcome') }}"
-                    class="hover:text-green-600 transition {{ request()->routeIs('welcome') ? 'text-green-700 font-semibold' : '' }}">
+                   class="hover:text-green-600 transition {{ request()->routeIs('welcome') ? 'text-green-700 font-semibold' : '' }}">
                     Beranda
                 </a>
                 <a href="{{ route('kwt') }}"
-                    class="hover:text-green-600 transition {{ request()->routeIs('kwt') ? 'text-green-700 font-semibold' : '' }}">
+                   class="hover:text-green-600 transition {{ request()->routeIs('kwt') ? 'text-green-700 font-semibold' : '' }}">
                     KWT Beluk
                 </a>
                 <a href="{{ route('maggot') }}"
-                    class="hover:text-green-600 transition {{ request()->routeIs('maggot') ? 'text-green-700 font-semibold' : '' }}">
+                   class="hover:text-green-600 transition {{ request()->routeIs('maggot') ? 'text-green-700 font-semibold' : '' }}">
                     Artikel
                 </a>
             </nav>
 
-            <!-- Kanan: Login / Dashboard -->
+            <!-- Login / Dashboard -->
             @if (Route::has('login'))
-                <div class="text-sm">
+                <div class="hidden md:block text-sm">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-gray-800 hover:text-blue-600 font-semibold">
                             Dashboard
@@ -51,6 +62,34 @@
                         </a>
                     @endauth
                 </div>
+            @endif
+        </div>
+
+        <!-- Dropdown Menu Mobile -->
+        <div class="md:hidden px-6 pb-4 pt-2 space-y-2 text-sm font-medium text-gray-700" x-show="open" x-transition>
+            <a href="{{ route('welcome') }}"
+               class="block hover:text-green-600 {{ request()->routeIs('welcome') ? 'text-green-700 font-semibold' : '' }}">
+                Beranda
+            </a>
+            <a href="{{ route('kwt') }}"
+               class="block hover:text-green-600 {{ request()->routeIs('kwt') ? 'text-green-700 font-semibold' : '' }}">
+                KWT Beluk
+            </a>
+            <a href="{{ route('maggot') }}"
+               class="block hover:text-green-600 {{ request()->routeIs('maggot') ? 'text-green-700 font-semibold' : '' }}">
+                Artikel
+            </a>
+
+            @if (Route::has('login'))
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="block text-gray-800 hover:text-blue-600 font-semibold">
+                        Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="block text-gray-800 hover:text-green-600 font-semibold">
+                        Login
+                    </a>
+                @endauth
             @endif
         </div>
     </header>
@@ -67,38 +106,40 @@
                 <h1 class="text-3xl lg:text-5xl font-bold">Beluk Bercerita</h1>
                 <h3 class="mt-2 text-1xl lg:text-3xl font-light">Kisah Beluk Berkarya untuk Desa Berdaya</h3>
             </div>
+
             {{-- Tampilan Daftar Artikel --}}
-            <div class="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            <div class="mb-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto px-4">
                 @foreach ($artikels as $artikel)
                     <div class="rounded-lg border border-gray-200 bg-white p-6 bg-opacity-80 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                        <div class="h-56 w-full">
+                        <div class="h-56 w-full overflow-hidden rounded-md">
                             <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar Artikel" class="object-cover w-full h-full">
                         </div>
                         <div class="pt-6">
-                        <a href="{{ route('artikel.show', $artikel->id) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $artikel->judul }}</a>
+                            <a href="{{ route('artikel.show', $artikel->id) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
+                                {{ $artikel->judul }}
+                            </a>
 
-                        <ul class="mt-2 flex items-center gap-4">
-                            <li class="flex items-center gap-2">
-                            <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.045 3.007 12.31 3a1.965 1.965 0 0 0-1.4.585l-7.33 7.394a2 2 0 0 0 0 2.805l6.573 6.631a1.957 1.957 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 21 11.479v-5.5a2.972 2.972 0 0 0-2.955-2.972Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
-                            </svg>
-                            <p class="text-sm font-medium
-                            @if($artikel->kategori == 'UMKM') bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded
-                            @elseif($artikel->kategori == 'Pemasaran') bg-green-100 text-green-800 px-2.5 py-0.5 rounded
-                            @elseif($artikel->kategori == 'Maggot') bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded
-                            @elseif($artikel->kategori == 'Limbah') bg-red-100 text-red-800 px-2.5 py-0.5 rounded
-                            @endif
-                            ">
-                                {{ $artikel->kategori }}
-                            </p>
-                            </li>
-                            <li class="flex items-center gap-2">
-                            <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd" d="M6 5V4a1 1 0 1 1 2 0v1h3V4a1 1 0 1 1 2 0v1h3V4a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v2H3V7a2 2 0 0 1 2-2h1ZM3 19v-8h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm5-6a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2H8Z" clip-rule="evenodd"/>
-                            </svg>
-                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Diterbitkan {{ $artikel->diterbitkan_pada }}</p>
-                            </li>
-                        </ul>
+                            <ul class="mt-2 flex items-center gap-4">
+                                <li class="flex items-center gap-2">
+                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M18.045 3.007 12.31 3a1.965 1.965 0 0 0-1.4.585l-7.33 7.394a2 2 0 0 0 0 2.805l6.573 6.631a1.957 1.957 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 21 11.479v-5.5a2.972 2.972 0 0 0-2.955-2.972Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                                    </svg>
+                                    <p class="text-sm font-medium
+                                        @if($artikel->kategori == 'UMKM') bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded
+                                        @elseif($artikel->kategori == 'Pemasaran') bg-green-100 text-green-800 px-2.5 py-0.5 rounded
+                                        @elseif($artikel->kategori == 'Maggot') bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded
+                                        @elseif($artikel->kategori == 'Limbah') bg-red-100 text-red-800 px-2.5 py-0.5 rounded
+                                        @endif">
+                                        {{ $artikel->kategori }}
+                                    </p>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M6 5V4a1 1 0 1 1 2 0v1h3V4a1 1 0 1 1 2 0v1h3V4a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v2H3V7a2 2 0 0 1 2-2h1ZM3 19v-8h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm5-6a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2H8Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Diterbitkan {{ $artikel->diterbitkan_pada }}</p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 @endforeach        
