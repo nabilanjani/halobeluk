@@ -6,7 +6,11 @@
     <title>{{ $artikel->judul }} - HaloBeluk</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -16,95 +20,72 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
-            color: #111827;
+            background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
         }
 
-        .hero {
-            position: relative;
+        .hero-image {
             width: 100%;
-            height: 60vh;
-            overflow: hidden;
-        }
-
-        .hero img {
+            height: 400px;
             object-fit: cover;
-            width: 100%;
-            height: 100%;
-            filter: brightness(75%);
+            object-position: center;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
         }
 
-        .hero-text {
-            position: absolute;
-            bottom: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            color: white;
+        .judul {
+            font-family: 'Libre Baskerville', serif;
         }
 
-        .hero-text h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .hero-text p {
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .content {
-            max-width: 700px;
-            background-color: white;
-            margin: -60px auto 60px auto;
-            padding: 3rem 2rem;
+        .artikel-container {
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-        }
-
-        .content .prose {
-            line-height: 1.75;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin-top: -80px;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 10;
         }
 
         @media (max-width: 640px) {
-            .hero-text h1 {
-                font-size: 1.7rem;
+            .hero-image {
+                height: 250px;
             }
 
-            .content {
-                padding: 2rem 1rem;
-                margin-top: -40px;
+            .artikel-container {
+                padding: 1.5rem;
+                margin-top: -60px;
             }
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center justify-start pb-12">
 
-    {{-- Hero Section --}}
-    <section class="hero" data-aos="fade-in">
-        @if($artikel->gambar)
-            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar Artikel">
-        @endif
-        <div class="hero-text">
-            <h1>{{ $artikel->judul }}</h1>
-            <p>Dipublikasikan pada {{ \Carbon\Carbon::parse($artikel->diterbitkan_pada)->format('d M Y') }}</p>
-        </div>
-    </section>
+    {{-- Hero Gambar --}}
+    @if($artikel->gambar)
+        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar Artikel" class="hero-image" data-aos="zoom-in">
+    @endif
 
     {{-- Konten Artikel --}}
-    <section class="content" data-aos="fade-up" data-aos-delay="100">
-        <div class="prose prose-lg text-gray-800 dark:prose-invert text-justify">
+    <div class="max-w-3xl w-full px-4 artikel-container" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="text-3xl sm:text-4xl font-bold judul text-center text-gray-900 mb-3">
+            {{ $artikel->judul }}
+        </h1>
+        <p class="text-center text-sm text-gray-500 mb-6">
+            Dipublikasikan pada {{ \Carbon\Carbon::parse($artikel->diterbitkan_pada)->format('d M Y') }}
+        </p>
+
+        <div class="prose max-w-none prose-lg text-gray-800 dark:prose-invert leading-relaxed text-justify" data-aos="fade-up" data-aos-delay="200">
             {!! nl2br(e($artikel->konten)) !!}
         </div>
-    </section>
+    </div>
 
-    <!-- AOS -->
+    <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
     </script>
 </body>
 </html>
