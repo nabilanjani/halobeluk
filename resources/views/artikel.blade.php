@@ -10,6 +10,9 @@
     <link href="https://fonts.bunny.net/css?family=libre-baskerville:400,700" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -56,14 +59,14 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start pb-12">
-    
-    {{-- Gambar artikel --}}
+
+    {{-- Hero Gambar --}}
     @if($artikel->gambar)
-        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar Artikel" class="hero-image">
+        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar Artikel" class="hero-image" data-aos="zoom-in">
     @endif
 
-    {{-- Konten artikel --}}
-    <div class="max-w-3xl w-full px-4 artikel-container">
+    {{-- Konten Artikel --}}
+    <div class="max-w-3xl w-full px-4 artikel-container" data-aos="fade-up" data-aos-delay="100">
         <h1 class="text-3xl sm:text-4xl font-bold judul text-center text-gray-900 mb-3">
             {{ $artikel->judul }}
         </h1>
@@ -71,9 +74,18 @@
             Dipublikasikan pada {{ \Carbon\Carbon::parse($artikel->diterbitkan_pada)->format('d M Y') }}
         </p>
 
-        <div class="prose max-w-none prose-lg text-gray-800 dark:prose-invert leading-relaxed text-justify">
+        <div class="prose max-w-none prose-lg text-gray-800 dark:prose-invert leading-relaxed text-justify" data-aos="fade-up" data-aos-delay="200">
             {!! nl2br(e($artikel->konten)) !!}
         </div>
     </div>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
 </body>
 </html>
