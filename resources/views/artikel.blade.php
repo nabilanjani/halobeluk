@@ -87,5 +87,9 @@
             once: true
         });
     </script>
+
+    <footer class="bg-white text-center py-4 text-sm border-t text-green-600 mt-auto">
+        &copy; {{ date('Y') }} Desa Beluk • Made With ♡ By KKN-T 88 Universitas Diponegoro
+    </footer>
 </body>
 </html>
