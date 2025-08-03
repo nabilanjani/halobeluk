@@ -82,7 +82,7 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6 lg:mb-16">
                     @foreach ($produks as $produk)
                         <div class="bg-gradient-to-b from-white/10 via-gray-900/30 to-gray-900/70 dark:from-gray-800 dark:to-gray-900 p-4 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-yellow-500 relative overflow-hidden group">
-                            <img src="{{ asset($produk->foto) }}" alt="Gambar Produk" class="w-full h-40 object-cover rounded-lg mb-4">
+                            <img src="{{ asset('public/' . $produk->foto) }}" alt="Gambar Produk" class="w-full h-40 object-cover rounded-lg mb-4">
                             <h3 class="text-sm font-semibold text-white">{{ $produk->nama_produk }}</h3>
                             <p class="text-xs text-white mt-2">oleh {{ $produk->shop->name }}</p>
                             <p class="text-xl font-bold bg-gradient-to-r text-white bg-clip-text py-2 px-4 rounded-full mt-2 shadow-lg hover:shadow-2xl">
