@@ -33,7 +33,7 @@ class produkController extends Controller
         // Upload gambar jika ada
         if ($request->hasFile('foto')) {
             $namaFile = time() . '.' . $request->file('foto')->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('storage/images'), $namaFile);
+            $request->file('foto')->move(public_path('images'), $namaFile);
             $produk->foto = 'images/' . $namaFile;
         }
 

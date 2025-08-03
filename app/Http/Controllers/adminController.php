@@ -31,7 +31,7 @@ class adminController extends Controller
         $imagePath = null;
         if ($request->hasFile('image_path')) {
             $namaFile = time() . '.' . $request->file('image_path')->getClientOriginalExtension();
-            $request->file('image_path')->move(public_path('storage/images'), $namaFile);
+            $request->file('image_path')->move(public_path('images'), $namaFile);
             $imagePath = 'images/' . $namaFile;
         }
 
@@ -63,7 +63,7 @@ class adminController extends Controller
         $gambarPath = null;
         if ($request->hasFile('image_path')) {
             $namaFile = time() . '.' . $request->file('image_path')->getClientOriginalExtension();
-            $request->file('image_path')->move(public_path('storage/images'), $namaFile);
+            $request->file('image_path')->move(public_path('images'), $namaFile);
             $gambarPath = 'images/' . $namaFile;
         }
 
@@ -91,7 +91,7 @@ class adminController extends Controller
         $imagePath = null;
         if ($request->hasFile('foto')) {
             $namaFile = time() . '.' . $request->file('foto')->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('storage/images'), $namaFile);
+            $request->file('foto')->move(public_path('images'), $namaFile);
             $imagePath = 'images/' . $namaFile;
         }
 
@@ -140,7 +140,7 @@ class adminController extends Controller
 
         if ($request->hasFile('image_path')) {
             $namaFile = time() . '.' . $request->file('image_path')->getClientOriginalExtension();
-            $request->file('image_path')->move(public_path('storage/images'), $namaFile);
+            $request->file('image_path')->move(public_path('images'), $namaFile);
             $shop->image_path = 'images/' . $namaFile;
         }
 
