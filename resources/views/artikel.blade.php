@@ -62,7 +62,7 @@
 
     {{-- Hero Gambar --}}
     @if($artikel->gambar)
-        <img src="{{ asset($artikel->gambar) }}" alt="Gambar Artikel" class="hero-image" data-aos="zoom-in">
+        <img src="{{ asset('public/' . $artikel->gambar) }}" alt="Gambar Artikel" class="hero-image" data-aos="zoom-in">
     @endif
 
     {{-- Konten Artikel --}}

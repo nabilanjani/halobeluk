@@ -112,7 +112,7 @@
                 @foreach ($artikels as $artikel)
                     <div class="rounded-lg border border-gray-200 bg-white p-6 bg-opacity-80 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div class="h-56 w-full overflow-hidden rounded-md">
-                            <img src="{{ asset($artikel->gambar) }}" alt="Gambar Artikel" class="object-cover w-full h-full">
+                            <img src="{{ asset('public/' . $artikel->gambar) }}" alt="Gambar Artikel" class="object-cover w-full h-full">
                         </div>
                         <div class="pt-6">
                             <a href="{{ route('artikel.show', $artikel->id) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">

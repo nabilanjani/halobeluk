@@ -29,7 +29,7 @@
             @foreach ($produks as $produk)
                 <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                     <div class="h-56 w-full">
-                        <img src="{{ asset($produk->foto) }}" alt="Gambar Produk" class="object-cover w-full h-full">
+                        <img src="{{ asset('public/' . $produk->foto) }}" alt="Gambar Produk" class="object-cover w-full h-full">
                     </div>
                     <div class="pt-6">
                         <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $produk->nama_produk }}</a>
