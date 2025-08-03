@@ -88,7 +88,7 @@
                         <div class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0">
                             <!-- Gambar -->
                             <div class="flex-shrink-0 w-40 h-40">
-                                <img src="{{ asset('storage/' . $shop->image_path) }}" alt="Gambar Toko" class="object-cover w-full h-full rounded-full">
+                                <img src="{{ asset($shop->image_path) }}" alt="Gambar Toko" class="object-cover w-full h-full rounded-full">
                             </div>
 
                             <!-- Deskripsi -->

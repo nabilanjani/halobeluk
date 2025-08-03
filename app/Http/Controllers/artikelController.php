@@ -37,7 +37,7 @@ class artikelController extends Controller
         // Upload gambar baru jika ada
         if ($request->hasFile('image_path')) {
             $namaFile = time() . '.' . $request->file('image_path')->getClientOriginalExtension();
-            $request->file('image_path')->move(public_path('storage/images'), $namaFile);
+            $request->file('image_path')->move(public_path('images'), $namaFile);
             $artikel->gambar = 'images/' . $namaFile;
         }
 
