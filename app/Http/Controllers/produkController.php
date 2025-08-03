@@ -9,21 +9,14 @@ class produkController extends Controller
 {
     public function edit($id)
     {
-        // Ambil data Produk berdasarkan ID
-        $produk = Produk::findOrFail($id);        
-        if (!$produk) {
-            return redirect()->route('adminbeluk.inputproduk')->with('error', 'Data tidak ditemukan.');
-        }
+        $produk = Produk::findOrFail($id);
+        $categories = Produk::distinct()->pluck('kategori', 'kategori');
 
-        $categories = Produk::distinct()->pluck('category', 'category');
-
-        // Tampilkan halaman edit dengan data produk
         return view('adminbeluk.inputproduk', compact('produk', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric',
@@ -32,17 +25,16 @@ class produkController extends Controller
             'kategori' => 'required|string|in:umkm,maggot',
         ]);
 
-        // Cari KWT yang ingin diupdate
         $produk = Produk::find($id);
-
         if (!$produk) {
             return redirect()->route('adminbeluk.inputproduk')->with('error', 'Data tidak ditemukan.');
         }
 
-        // Proses upload gambar jika ada
+        // Upload gambar jika ada
         if ($request->hasFile('foto')) {
-            $imagePath = $request->file('foto')->store('produk', 'public');
-            $produk->image_path = $imagePath;
+            $namaFile = time() . '.' . $request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->move(public_path('storage/images'), $namaFile);
+            $produk->foto = 'images/' . $namaFile;
         }
 
         // Update data
@@ -58,14 +50,11 @@ class produkController extends Controller
 
     public function destroy($id)
     {
-        // Cari data berdasarkan ID
         $produk = Produk::find($id);
-        
         if (!$produk) {
             return redirect()->route('adminbeluk.inputproduk')->with('error', 'Data tidak ditemukan.');
         }
 
-        // Hapus data
         $produk->delete();
 
         return redirect()->route('adminbeluk.inputproduk')->with('success', 'Data Produk berhasil dihapus!');

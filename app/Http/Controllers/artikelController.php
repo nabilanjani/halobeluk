@@ -8,7 +8,6 @@ class artikelController extends Controller
 {
     public function edit($id)
     {
-        // Ambil data Artikel berdasarkan ID
         $artikel = Artikel::find($id);
         
         if (!$artikel) {
@@ -17,34 +16,32 @@ class artikelController extends Controller
 
         $categories = Artikel::distinct()->pluck('kategori', 'kategori');
 
-        // Tampilkan halaman edit dengan data artikel
         return view('adminbeluk.edit', compact('artikel', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
             'kategori' => 'required|in:umkm,limbah,maggot,pemasaran',
             'diterbitkan_pada' => 'required|date',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // Cari Artikel yang ingin diupdate
         $artikel = Artikel::find($id);
-
         if (!$artikel) {
             return redirect()->route('adminbeluk.inputartikel')->with('error', 'Data tidak ditemukan.');
         }
 
-        // Proses upload gambar jika ada
+        // Upload gambar baru jika ada
         if ($request->hasFile('image_path')) {
-            $imagePath = $request->file('image_path')->store('artikel', 'public');
-            $artikel->image_path = $imagePath;
+            $namaFile = time() . '.' . $request->file('image_path')->getClientOriginalExtension();
+            $request->file('image_path')->move(public_path('storage/images'), $namaFile);
+            $artikel->gambar = 'images/' . $namaFile;
         }
 
-        // Update data
+        // Update data artikel
         $artikel->update([
             'judul' => $request->judul,
             'konten' => $request->konten,
@@ -57,14 +54,12 @@ class artikelController extends Controller
 
     public function destroy($id)
     {
-        // Cari data berdasarkan ID
         $artikel = Artikel::find($id);
         
         if (!$artikel) {
             return redirect()->route('adminbeluk.inputartikel')->with('error', 'Data tidak ditemukan.');
         }
 
-        // Hapus data
         $artikel->delete();
 
         return redirect()->route('adminbeluk.inputartikel')->with('success', 'Data Artikel berhasil dihapus!');
