@@ -89,7 +89,7 @@
                                 Rp {{ number_format($produk->harga, 0, ',', '.') }}
                             </p>
                             <div class="mt-2">
-                                <a href="{{ $produk->shop->link }}?text=Halo%2C%20saya%20tertarik%20dengan%20produkmu%21" class="inline-block text-sm text-green-600 bg-white py-2 px-4 rounded-full border border-green-600 hover:bg-green-600 hover:text-white transition duration-300">
+                                <a href="https://wa.me/{{ substr($produk->shop->link, 4) }}?text=Halo%2C%20saya%20tertarik%20dengan%20produkmu%21" class="inline-block text-sm text-green-600 bg-white py-2 px-4 rounded-full border border-green-600 hover:bg-green-600 hover:text-white transition duration-300">
                                     Hubungi Toko
                                 </a>
                             </div>
