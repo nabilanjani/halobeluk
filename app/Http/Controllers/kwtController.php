@@ -8,7 +8,7 @@ class kwtController extends Controller
 {
     public function index()
     {
-        $shops = Shop::all();
+        $shops = Shop::where('category', 'kwt')->get();
         return view('kwt', compact('shops'));
     }
 }
